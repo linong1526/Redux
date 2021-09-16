@@ -1,7 +1,7 @@
 import React from 'react'
 import { HashRouter, BrowserRouter, Route, Redirect, Switch, Link, NavLink,withRouter } from 'react-router-dom'
 import { Layout, Menu, Breadcrumb, Row, Col, Button } from 'antd';
-import { AlipayOutlined, UserOutlined, LaptopOutlined, NotificationOutlined, HomeOutlined, InsertRowLeftOutlined, UsergroupAddOutlined, ReconciliationOutlined } from '@ant-design/icons';
+import { Html5Outlined,AlipayOutlined, UserOutlined, LaptopOutlined, NotificationOutlined, HomeOutlined, InsertRowLeftOutlined, UsergroupAddOutlined, ReconciliationOutlined } from '@ant-design/icons';
 import { withStorage,withLogin } from '@/utils/hoc';
 
 import Login from './Login'
@@ -111,36 +111,12 @@ class Manage extends React.Component {
         }
         const {path:basePath} = this.props.match
         return (
-            // <div>
-            //     App
-
-            //     <nav>
-            //         <NavLink to="/home" activeStyle={{color:'#f00'}}>首页</NavLink>
-            //         <NavLink to="/login" activeStyle={{color:'#f00'}}>登录</NavLink>
-            //     </nav>
-            //         <Switch>
-            //             <Route path="/login" component={Login} />
-            //             <Route path="/home">
-            //                 <Home></Home>
-            //             </Route>
-            //             <Route path="/notfound" 
-            //             // render={()=><div>notfound</div>}
-            //             >
-            //                 <div>404, 您访问的页面不存在</div>
-            //             </Route>
-
-            //             {/* 重定向 */}
-            //             <Redirect from="/" to="/home" exact />
-            //             <Redirect to="/notfound" />
-            //         </Switch>
-
-            // </div>
             <Layout style={{ minHeight: '100vh' }}>
                 <Header className="header" style={{ padding: '0 20px' }}>
 
                     <Row>
                         <Col span={18}><div className="logo">
-                            <AlipayOutlined className="icon" />
+                            <Html5Outlined className="icon"/>
                             <h1>班级管理系统</h1>
                         </div></Col>
                         <Col span={6} className="txt-right">
@@ -201,8 +177,8 @@ class Manage extends React.Component {
                                 <Route path={basePath + "/subject"} component={Subject}/>
                                 <Redirect from={basePath} to="/home" exact />
                             </Switch>
-                            {/* <Hooks/>
-                            <div className="goods"></div> */}
+                            {/* <Hooks/> */}
+                            <div className="goods"></div>
 
                         </Content>
                     </Layout>

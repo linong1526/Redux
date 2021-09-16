@@ -10,7 +10,13 @@ import 'antd/dist/antd.css';
 import './App.scss'
 import './test.css'
 
-@withStorage('userInfo')
+// const reduxState = store.getState()
+// const [state,setState] = useState(callback(reduxState,store.dispatch))
+// store.subscribe(()=>{
+//     const newState = store.getState()
+//     setState(callback(newState,store.dispatch));
+// })
+
 @withRouter
 class App extends React.Component {
     componentDidMount(){
@@ -20,11 +26,7 @@ class App extends React.Component {
         })
     }
     render() {
-        let {userInfo} = this.props
-        if(!userInfo){
-            userInfo = {}
-        }
-        const isLogin = !!userInfo._id
+        console.log('App.props',this.props)
         return (
 
             <Switch>

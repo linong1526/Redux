@@ -1,24 +1,34 @@
 import React,{useState} from 'react'
 import { Redirect } from 'react-router-dom';
 import store from '@/store'
+import {connect} from 'react-redux'
+import request from './request';
 
 export function withUser(InputComponent){
     // 接收组件InputComponent作为参数返回一个新的组件OutputComponent
-    return function OutputComponent(props){
+    function OutputComponent(props){
         // console.log('OutputComponent',props)
-        let userInfo = localStorage.getItem('userInfo');
-        try{
-            userInfo = JSON.parse(userInfo) || {}
-        }catch(err){
-            userInfo = {}
-        }
+        // let userInfo = localStorage.getItem('userInfo');
+        // try{
+        //     userInfo = JSON.parse(userInfo) || {}
+        // }catch(err){
+        //     userInfo = {}
+        // }
         return (
             // obj = {a:10,b:20}
-            <InputComponent {...props} user={userInfo}>
+            <InputComponent {...props}>
                 {props.children}
             </InputComponent>
         )
     }
+    const mapStateToProps = function(state){
+        return {
+            user:state.userInfo
+        };
+    }
+    OutputComponent = connect(mapStateToProps)(OutputComponent)
+
+    return OutputComponent
 }
 
 
@@ -83,6 +93,15 @@ export function withAuth(InputComponent){
 export function withLogin(InputComponent){
     @withUser
     class OutputComponent extends React.Component{
+        componentDidMount(){
+            request.get('/user/verify').then(data=>{
+                console.log('data',data)
+                if(data.code === 401){
+                    store.dispatch({type:'logout'})
+                    // this.props.history.push('/login')
+                }
+            })
+        }
         render(){
             return (
                 this.props.user._id ? 
@@ -98,16 +117,41 @@ export function withLogin(InputComponent){
     return OutputComponent;
 }
 
-export function withRedux(InputComponent){
-    return function OutputComponent(props){
-        const reduxState = store.getState()
-        const [state,setState] = useState(reduxState)
-        store.subscribe(()=>{
-            const newState = store.getState()
-            setState(newState);
-        })
-        return <InputComponent {...props} {...state} dispatch={store.dispatch}>
-            {props.children}
-        </InputComponent>
-    }
-}
+// export function withRedux(InputComponent){
+//     return function OutputComponent(props){
+//         const reduxState = store.getState()
+//         const [state,setState] = useState(reduxState)
+//         store.subscribe(()=>{
+//             const newState = store.getState()
+//             setState(newState);
+//         })
+//         return <InputComponent {...props} {...state} dispatch={store.dispatch}>
+//             {props.children}
+//         </InputComponent>
+//     }
+// }
+
+// 利用函数柯里化实现选择性共享Redux数据
+// export function withRedux(callback){
+//     return function(InputComponent){
+//         return function OutputComponent(props){
+//             const reduxState = store.getState()
+//             const [state,setState] = useState(callback(reduxState,store.dispatch))
+//             store.subscribe(()=>{
+//                 const newState = store.getState()
+//                 setState(callback(newState,store.dispatch));
+//             })
+//             return <InputComponent {...props} {...state}>
+//                 {props.children}
+//             </InputComponent>
+//         }
+//     }
+// }
+// withRedux((state,dispatch)=>{
+//     return {
+//         userInfo:state.userInfo,
+//         logout(){
+//             dispatch({type:'logout'})
+//         }
+//     }
+// })(Home)

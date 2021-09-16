@@ -2,8 +2,22 @@ import React from 'react'
 import { Form, Input, Button,Checkbox, message } from 'antd'
 import { withUser, withAuth, withStorage } from '../utils/hoc'
 import request from '@/utils/request'
+import {connect} from 'react-redux'
 
-@withStorage('userInfo')
+const mapStateToProps = function({userInfo}){
+    return {
+        isLogin:Boolean(userInfo._id)
+    }
+}
+const mapDispatchToProps = function(dispatch){
+    return {
+        login(userInfo){
+            dispatch({type:'login',userInfo})
+        }
+    }
+}
+
+@connect(mapStateToProps,mapDispatchToProps)
 class Login extends React.Component {
     state = {
         initialValues:{
@@ -16,18 +30,15 @@ class Login extends React.Component {
         console.log('values',values)
         const data = await request.post('/login',values)
         if(data.code === 200){
-            // 把用户信息存入本地
-            localStorage.setItem('userInfo',JSON.stringify(data.data));
-            
+            this.props.login(data.data)
             this.props.history.push('/manage/home');
-
         }else{
             message.error('用户名或密码不正确')
         }
     }
     componentDidMount(){
         // 如果用户已登录，用户在进入登录页面时自动跳到后台首页
-        if(this.props.userInfo){
+        if(this.props.isLogin){
             this.props.history.replace('/manage/home')
         }
     }

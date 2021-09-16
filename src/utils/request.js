@@ -1,15 +1,32 @@
 import axios from 'axios'
-
+import store from '@/store'
 export const baseUrl = 'http://120.76.247.5:2002'
 export const apiUrl = baseUrl + '/api'
+
+// let userInfo = localStorage.getItem('userInfo')
+// try{
+//     userInfo = JSON.parse(userInfo) || {}
+// }catch(err){
+//     userInfo = {}
+// }
+let {userInfo} = store.getState();// 未登录：{}, 登录后：{Authorization}
+
+store.subscribe(()=>{
+    let {userInfo} = store.getState();console.log('login....',userInfo.authorization)
+    //登录后如userInfo有修改，则更新Authorization
+    instance.defaults.headers['Authorization'] = userInfo.authorization;
+})
+
 const instance = axios.create({
     // 默认配置
     baseURL:apiUrl,
     withCredentials:true,
     headers:{
-        Authorization:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imxhb3hpZSIsImlhdCI6MTYzMTY4OTE1NSwiZXhwIjoxNjMxNjk2MzU1fQ.pRR3oGBybHnR88o3fIivLs54646fDirM9CqXlChnoiY'
+        Authorization:userInfo.authorization
     }
 })
+
+console.log('token=>',userInfo.authorization)
 
 // export default instance;
 

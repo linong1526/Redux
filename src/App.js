@@ -31,6 +31,7 @@ class App extends React.Component {
 
             <Switch>
                 <Route path="/login" component={Login} />
+                {/* 路由不起作用？？？？思考为什么？ */}
                 <Route path="/manage" component={Manage} />
                 <Redirect from="/" to="/login" exact />
             </Switch>

@@ -1,0 +1,3 @@
+step：
+yarn
+yarn server

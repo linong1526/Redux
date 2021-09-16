@@ -32,7 +32,7 @@ class Add extends React.Component{
             console.log('category',data);
             if(data.code === 201){
                 message.success('添加成功');
-                this.props.history.push('/class')
+                this.props.history.push('/manage/class')
             }else{
                 message.error('添加失败')
             }

@@ -9,10 +9,10 @@ export const apiUrl = baseUrl + '/api'
 // }catch(err){
 //     userInfo = {}
 // }
-let {userInfo} = store.getState();// 未登录：{}, 登录后：{Authorization}
+let {user:{userInfo}} = store.getState();// 未登录：{}, 登录后：{Authorization}
 
 store.subscribe(()=>{
-    let {userInfo} = store.getState();console.log('login....',userInfo.authorization)
+    let {user:{userInfo}} = store.getState();console.log('login....',userInfo.authorization)
     //登录后如userInfo有修改，则更新Authorization
     instance.defaults.headers['Authorization'] = userInfo.authorization;
 })

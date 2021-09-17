@@ -54,8 +54,8 @@ const mapStateToProps = function (state, props) {
     // props: 当前组件的原props
     console.log('mapStateToProps=', state, props)
     return {
-        user: state.userInfo,
-        isLogin: Boolean(state.userInfo._id)
+        user: state.user.userInfo,
+        isLogin: Boolean(state.user.userInfo._id)
     }
 }
 // mapDispatchToProps: 定义修改state的方法

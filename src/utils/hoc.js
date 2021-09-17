@@ -23,7 +23,7 @@ export function withUser(InputComponent){
     }
     const mapStateToProps = function(state){
         return {
-            user:state.userInfo
+            user:state.user.userInfo
         };
     }
     OutputComponent = connect(mapStateToProps)(OutputComponent)

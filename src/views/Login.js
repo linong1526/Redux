@@ -3,16 +3,19 @@ import { Form, Input, Button,Checkbox, message } from 'antd'
 import { withUser, withAuth, withStorage } from '../utils/hoc'
 import request from '@/utils/request'
 import {connect} from 'react-redux'
+import userAction from '@/store/actions/user'
 
-const mapStateToProps = function({userInfo}){
+const mapStateToProps = function(state){
     return {
-        isLogin:Boolean(userInfo._id)
+        isLogin:Boolean(state.user.userInfo._id)
     }
 }
 const mapDispatchToProps = function(dispatch){
     return {
         login(userInfo){
-            dispatch({type:'login',userInfo})
+            // dispatch({type:'login',userInfo})
+            //使用reducer之后可以这样写
+            dispatch(userAction.login(userInfo))
         }
     }
 }
